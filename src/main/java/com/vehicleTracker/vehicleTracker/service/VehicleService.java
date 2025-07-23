@@ -2,16 +2,22 @@ package com.vehicleTracker.vehicleTracker.service;
 
 import com.vehicleTracker.vehicleTracker.DTO.LocationUpdateDTO;
 import com.vehicleTracker.vehicleTracker.DTO.LocationUpdateRequest;
+import com.vehicleTracker.vehicleTracker.DTO.VehicleLineStringDTO;
+import com.vehicleTracker.vehicleTracker.Repository.CoordinatesOnly;
 import com.vehicleTracker.vehicleTracker.Repository.LocationUpdateRepository;
 import com.vehicleTracker.vehicleTracker.Repository.VehicleRepository;
 import com.vehicleTracker.vehicleTracker.model.LocationUpdate;
 import com.vehicleTracker.vehicleTracker.model.Vehicle;
+import jakarta.servlet.ServletOutputStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.geo.GeoJsonLineString;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -45,6 +51,33 @@ public class VehicleService {
         return locationUpdateRepository.findNearbyVehicles(point, radiusInMeters);
 
     }
+
+
+
+    public GeoJsonLineString getVehiclePathAsLineString(String vehicleNumber, Date from, Date to) {
+        System.out.println("I am being called");
+        List<VehicleLineStringDTO> results = locationUpdateRepository.getLineStringForVehicle(vehicleNumber, from, to);
+
+        System.out.println("Vehicle: " + vehicleNumber);
+        System.out.println("From: " + from);
+        System.out.println("To: " + to);
+        System.out.println("Found results: " + results.size());
+
+        if (results.isEmpty()) {
+            return null; // or throw exception / return empty LineString
+        }
+
+        VehicleLineStringDTO dto = results.get(0);
+
+        List<Point> points = dto.getLineString().stream()
+                .map(coord -> new Point(coord.get(0), coord.get(1))) // [lng, lat]
+                .toList();
+
+        System.out.println("Points: " + points);
+        return new GeoJsonLineString(points);
+    }
+
+
 
 
 

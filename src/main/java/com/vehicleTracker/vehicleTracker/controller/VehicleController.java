@@ -6,9 +6,12 @@ import com.vehicleTracker.vehicleTracker.model.LocationUpdate;
 import com.vehicleTracker.vehicleTracker.model.Vehicle;
 import com.vehicleTracker.vehicleTracker.service.LocationBroadcastService;
 import com.vehicleTracker.vehicleTracker.service.VehicleService;
+import org.springframework.data.mongodb.core.geo.GeoJsonLineString;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -43,6 +46,17 @@ public class VehicleController {
     public ResponseEntity<List<LocationUpdate>> getNearBy(@RequestParam double lon, @RequestParam double lat , @RequestParam(defaultValue = "5000") double radius){
         return ResponseEntity.ok(vehicleService.getNearByVehicles(lon,lat,radius));
     }
+
+    @GetMapping("/path")
+    public ResponseEntity<GeoJsonLineString> getVehiclePath(
+            @RequestParam String vehicleNumber,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date to) {
+        GeoJsonLineString path = vehicleService.getVehiclePathAsLineString(vehicleNumber, from, to);
+        return ResponseEntity.ok(path);
+    }
+
+
 
 
 
