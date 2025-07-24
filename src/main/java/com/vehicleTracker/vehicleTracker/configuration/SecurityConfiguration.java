@@ -58,6 +58,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/ws/**",
                                 "/api/vehicles/**",
+                                "/api/vehicles/live",
                                 "/api/signup/**",
                                 "/api/login/**"
                         ).permitAll()

@@ -1,5 +1,6 @@
 package com.vehicleTracker.vehicleTracker.service;
 
+import com.vehicleTracker.vehicleTracker.DTO.LiveVehicleDTO;
 import com.vehicleTracker.vehicleTracker.DTO.LocationUpdateDTO;
 import com.vehicleTracker.vehicleTracker.DTO.LocationUpdateRequest;
 import com.vehicleTracker.vehicleTracker.DTO.VehicleLineStringDTO;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class VehicleService {
@@ -54,9 +56,9 @@ public class VehicleService {
 
 
 
-    public GeoJsonLineString getVehiclePathAsLineString(String vehicleNumber, Date from, Date to) {
+    public GeoJsonLineString getVehiclePathAsLineString(String vehicleNumber, LocalDateTime from, LocalDateTime to) {
         System.out.println("I am being called");
-        List<VehicleLineStringDTO> results = locationUpdateRepository.getLineStringForVehicle(vehicleNumber, from, to);
+        List<VehicleLineStringDTO> results = vehicleRepository.getLineStringForVehicle(vehicleNumber, from, to);
 
         System.out.println("Vehicle: " + vehicleNumber);
         System.out.println("From: " + from);
@@ -75,6 +77,13 @@ public class VehicleService {
 
         System.out.println("Points: " + points);
         return new GeoJsonLineString(points);
+    }
+
+
+    public List<LiveVehicleDTO> getAllLiveVehicleData() {
+        List<LiveVehicleDTO> list = vehicleRepository.findAllLiveVehiclePositions();
+        System.out.println(list);
+        return list;
     }
 
 

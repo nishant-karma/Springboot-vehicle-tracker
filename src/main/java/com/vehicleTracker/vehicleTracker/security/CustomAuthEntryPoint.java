@@ -22,11 +22,11 @@ public class CustomAuthEntryPoint implements AuthenticationEntryPoint {
 
         Map<String, Object> body = new HashMap<>();
 //        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.BAD_REQUEST.value());
+        body.put("status", HttpStatus.UNAUTHORIZED.value());
         body.put("error", "BAD REQUEST");
         body.put("message",authException.getMessage());
 
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
 
         new ObjectMapper().writeValue(response.getOutputStream(), body);
