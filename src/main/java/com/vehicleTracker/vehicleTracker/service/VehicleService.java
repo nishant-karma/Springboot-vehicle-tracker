@@ -58,6 +58,7 @@ public class VehicleService {
 
     public GeoJsonLineString getVehiclePathAsLineString(String vehicleNumber, LocalDateTime from, LocalDateTime to) {
         System.out.println("I am being called");
+
         List<VehicleLineStringDTO> results = vehicleRepository.getLineStringForVehicle(vehicleNumber, from, to);
 
         System.out.println("Vehicle: " + vehicleNumber);
@@ -66,18 +67,34 @@ public class VehicleService {
         System.out.println("Found results: " + results.size());
 
         if (results.isEmpty()) {
-            return null; // or throw exception / return empty LineString
+            System.out.println("❌ No results");
+            return null;
         }
 
         VehicleLineStringDTO dto = results.get(0);
 
+        if (dto.getLineString() == null) {
+            System.out.println("🚨 dto.getLineString() is null");
+            return null;
+        }
+        if (dto.getLineString().isEmpty()) {
+            System.out.println("⚠️ dto.getLineString() is empty");
+            return null;
+        }
+
+        System.out.println("✅ Raw coords:");
+        dto.getLineString().forEach(c -> System.out.println("  ➤ " + c));
+
         List<Point> points = dto.getLineString().stream()
-                .map(coord -> new Point(coord.get(0), coord.get(1))) // [lng, lat]
+                .map(coord -> new Point(coord.get(0), coord.get(1))) // lon, lat
                 .toList();
 
         System.out.println("Points: " + points);
+
         return new GeoJsonLineString(points);
     }
+
+
 
 
     public List<LiveVehicleDTO> getAllLiveVehicleData() {
