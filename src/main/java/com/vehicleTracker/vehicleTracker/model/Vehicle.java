@@ -17,5 +17,6 @@ public class Vehicle {
     private String type;
     private String driverName;
     private boolean isActive = true;
+    private boolean isDeleted = false;
 
 }

@@ -60,7 +60,10 @@ public class SecurityConfiguration {
                                 "/api/vehicles/**",
                                 "/api/vehicles/live",
                                 "/api/signup/**",
-                                "/api/login/**"
+                                "/api/login/**",
+                                "/api/polygons/save",
+                                "/api/polygons/get",
+                                "/api/polygons/edit/{id}"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

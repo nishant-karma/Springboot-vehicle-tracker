@@ -7,6 +7,7 @@ import com.vehicleTracker.vehicleTracker.DTO.VehicleLineStringDTO;
 import com.vehicleTracker.vehicleTracker.Repository.CoordinatesOnly;
 import com.vehicleTracker.vehicleTracker.Repository.LocationUpdateRepository;
 import com.vehicleTracker.vehicleTracker.Repository.VehicleRepository;
+import com.vehicleTracker.vehicleTracker.exceptions.VehicleNotFoundException;
 import com.vehicleTracker.vehicleTracker.model.LocationUpdate;
 import com.vehicleTracker.vehicleTracker.model.Vehicle;
 import jakarta.servlet.ServletOutputStream;
@@ -64,11 +65,11 @@ public class VehicleService {
         System.out.println("Vehicle: " + vehicleNumber);
         System.out.println("From: " + from);
         System.out.println("To: " + to);
-        System.out.println("Found results: " + results.size());
+        System.out.println("Found results: " + results);
 
         if (results.isEmpty()) {
             System.out.println("❌ No results");
-            return null;
+            throw new VehicleNotFoundException("The vehicle having vehicle number not found");
         }
 
         VehicleLineStringDTO dto = results.get(0);

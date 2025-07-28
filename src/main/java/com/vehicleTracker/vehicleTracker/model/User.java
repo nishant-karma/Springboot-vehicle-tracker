@@ -25,6 +25,7 @@ public class User implements UserDetails {
     private String password;
     private Role role;
     private LocalDateTime createdAt;
+    private boolean isDeleted = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
