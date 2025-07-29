@@ -41,7 +41,7 @@ public class VehicleLocationSimulator {
         this.roadPathLoader = roadPathLoader;
     }
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 50000000)
     public void updateVehicleLocation() {
         List<Vehicle> vehicles = vehicleRepository.findAll();
 

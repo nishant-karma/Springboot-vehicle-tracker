@@ -4,21 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.geo.GeoJsonPolygon;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.List;
 
 @Document
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Polygon {
+public class Geometry {
     @Id
     private String polygonId;
 
-    private String type = "Polygon";
-
-    private List<List<List<Double>>> coordinates;
+    private com.mongodb.client.model.geojson.Geometry geometry;
 
     private boolean isDeleted = false;
 

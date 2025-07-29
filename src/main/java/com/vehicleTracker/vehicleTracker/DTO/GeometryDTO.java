@@ -4,16 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PolygonDTO {
+public class GeometryDTO {
 
     private String polygonId;
 
-    private String type;
+    private String type="Feature";
 
-    private List<List<List<Double>>> coordinates;
+    private Map<String, Object> geometry;
 }
