@@ -61,9 +61,9 @@ public class SecurityConfiguration {
                                 "/api/vehicles/live",
                                 "/api/signup/**",
                                 "/api/login/**",
-                                "/api/polygons/save",
-                                "/api/polygons/get",
-                                "/api/polygons/edit/{id}"
+                                "/api/features/save",
+                                "/api/features/get",
+                                "/api/features/edit/{id}"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
